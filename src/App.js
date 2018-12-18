@@ -80,15 +80,24 @@ class App extends Component {
               );
             })
           }
-        </div>        
+        </div>
       );
       style.backgroundColor = "red";
     }
+
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push("red"); //classes = ["red"]
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push("bold"); //classes = ["red", "bold"]
+    }    
 
     return (
       <div className="App">
         <h1>This is a react app</h1>
         {/* This way of calling a method is not recommended because it can be ineficient, however it can be used if needed */}
+        <p className={classes.join(" ")}>This is really working :D</p>
         <button
           style={style}
           onClick={this.togglePersonsHandler}>Toggle persons</button>
