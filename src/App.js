@@ -5,34 +5,51 @@ import Person from "./Person/Person";
 class App extends Component {
   state = {
     persons: [
-      { name: "André", age: 35 },
-      { name: "Elio", age: 25 },
-      { name: "Vasco", age: 38 }
+      { id: "aaa", name: "André", age: 35 },
+      { id: "bbb", name: "Elio", age: 25 },
+      { id: "ccc", name: "Vasco", age: 38 },
+      { id: "ddd", name: "Paula", age: 35 },
+      { id: "eee", name: "Vera", age: 37 }
     ],
-    otherState: "Some value"
+    otherState: "Some value",
+    showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-    // DON'T DO THIS: The state shouldn't be manipulated directly
-    //this.state.persons[0].name = "André Rua";
-    // NOTE: React only updates the DOM when there are changes on the state or on props
-    this.setState({
-      persons: [
-        { name: newName, age: 35 },
-        { name: "Elio Freitas", age: 25 },
-        { name: "Vasco Gervásio", age: 38 }
-      ]
-    });
+  nameChangedHandler = (event, id) => {
+    // NOTE: This is the best approach to update information in the state without manipulating any part of the state directly
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    })
+
+    const person = {
+      ...this.state.persons[personIndex]
+    }
+    // This is the same, just with old syntax
+    // const person = Object.assign({}, this.state.persons[personIndex]);
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: "André Rua", age: 35 },
-        { name: event.target.value, age: 25 },
-        { name: "Vasco Gervásio", age: 38 }
-      ]
-    });
+  deletePersonHandler = (personIndex) => {
+    /*
+      DON'T DO THIS. Since the objects are pointers instead of new objects we are not creating a new object, instead using 
+      the same reference to the original object, thus when we use splice on the persons object we are actually mutating the actual state and
+      we shouldn't manipulate the state directly.
+    
+      const persons = this.state.persons;
+      persons.splice(personIndex, 1);
+      this.setState({ persons: persons });
+    */
+    const persons = [...this.state.persons]; // Using the spread operator `...` we are copying all the elements inside the array into the new one.
+    persons.splice(personIndex, 1);
+    this.setState({ persons: persons });
+  }
+
+  togglePersonsHandler = () => {
+    this.setState({ showPersons: !this.state.showPersons })
   }
 
   render() {
@@ -44,24 +61,36 @@ class App extends Component {
       cursor: "pointer"
     }
 
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {
+            this.state.persons.map((person, index) => {
+              return (
+                <Person
+                  click={() => this.deletePersonHandler(index)}
+                  name={person.name}
+                  age={person.age}
+                  key={person.id}
+                  changed={(event) => this.nameChangedHandler(event, person.id)}
+                />
+              );
+            })
+          }
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>This is a react app</h1>
         {/* This way of calling a method is not recommended because it can be ineficient, however it can be used if needed */}
         <button
           style={style}
-          onClick={() => this.switchNameHandler("Bad potato!")}>Switch name</button>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age} />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, "Good potato")}
-          changed={this.nameChangedHandler}>I like to create games.</Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age} />
+          onClick={this.togglePersonsHandler}>Toggle persons</button>
+        {persons}
       </div>
     );
 
