@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from "./Person/Person";
 
 
@@ -54,15 +54,8 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: "green",
-      color: "white",
-      font: "inherit",
-      border: "1px solid blue",
-      padding: "8px"
-    }
-
     let persons = null;
+    let btnClass = "";
 
     if (this.state.showPersons) {
       persons = (
@@ -82,24 +75,24 @@ class App extends Component {
           }
         </div>
       );
-      style.backgroundColor = "red";
+      btnClass = classes.Red;
     }
 
-    const classes = [];
+    const assignedClasses = [];
     if (this.state.persons.length <= 2) {
-      classes.push("red"); //classes = ["red"]
+      assignedClasses.push(classes.red); //classes = ["red"]
     }
     if (this.state.persons.length <= 1) {
-      classes.push("bold"); //classes = ["red", "bold"]
+      assignedClasses.push(classes.bold); //classes = ["red", "bold"]
     }
 
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1>This is a react app</h1>
         {/* This way of calling a method is not recommended because it can be ineficient, however it can be used if needed */}
-        <p className={classes.join(" ")}>This is really working :D</p>
+        <p className={assignedClasses.join(" ")}>This is really working :D</p>
         <button
-          style={style}
+          className={btnClass}
           onClick={this.togglePersonsHandler}>Toggle persons</button>
         {persons}
       </div>
