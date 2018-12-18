@@ -36,21 +36,31 @@ class App extends Component {
   }
 
   render() {
+    const style = {
+      backgroundColor: "white",
+      font: "inherit",
+      border: "1px solid blue",
+      padding: "8px",
+      cursor: "pointer"
+    }
+
     return (
       <div className="App">
         <h1>This is a react app</h1>
         {/* This way of calling a method is not recommended because it can be ineficient, however it can be used if needed */}
-        <button onClick={() => this.switchNameHandler("Bad potato!")}>Switch name</button>
-        <Person 
-          name={this.state.persons[0].name} 
+        <button
+          style={style}
+          onClick={() => this.switchNameHandler("Bad potato!")}>Switch name</button>
+        <Person
+          name={this.state.persons[0].name}
           age={this.state.persons[0].age} />
-        <Person 
-          name={this.state.persons[1].name} 
+        <Person
+          name={this.state.persons[1].name}
           age={this.state.persons[1].age}
           click={this.switchNameHandler.bind(this, "Good potato")}
           changed={this.nameChangedHandler}>I like to create games.</Person>
-        <Person 
-          name={this.state.persons[2].name} 
+        <Person
+          name={this.state.persons[2].name}
           age={this.state.persons[2].age} />
       </div>
     );
