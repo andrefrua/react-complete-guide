@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+
 import classes from './App.css';
-import Person from "../components/Persons/Person/Person";
+import Persons from "../components/Persons/Persons";
+import Cockpit from "../components/Cockpit/Cockpit";
 
 
 class App extends Component {
@@ -19,7 +21,7 @@ class App extends Component {
   nameChangedHandler = (event, id) => {
     // NOTE: This is the best approach to update information in the state without manipulating any part of the state directly
     const personIndex = this.state.persons.findIndex(p => {
-      return p.userId === id;
+      return p.id === id;
     })
 
     const person = {
@@ -55,45 +57,22 @@ class App extends Component {
 
   render() {
     let persons = null;
-    let btnClass = "";
 
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {
-            this.state.persons.map((person, index) => {
-              return (
-                <Person
-                  click={() => this.deletePersonHandler(index)}
-                  name={person.name}
-                  age={person.age}
-                  key={person.id}
-                  changed={(event) => this.nameChangedHandler(event, person.id)}
-                />
-              );
-            })
-          }
-        </div>
-      );
-      btnClass = classes.Red;
-    }
-
-    const assignedClasses = [];
-    if (this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red); //classes = ["red"]
-    }
-    if (this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold); //classes = ["red", "bold"]
+      persons = <Persons
+        persons={this.state.persons}
+        clicked={this.deletePersonHandler}
+        changed={this.nameChangedHandler}
+      />
     }
 
     return (
       <div className={classes.App}>
-        <h1>This is a react app</h1>
-        {/* This way of calling a method is not recommended because it can be ineficient, however it can be used if needed */}
-        <p className={assignedClasses.join(" ")}>This is really working :D</p>
-        <button
-          className={btnClass}
-          onClick={this.togglePersonsHandler}>Toggle persons</button>
+        <Cockpit
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler}
+        />
         {persons}
       </div>
     );
