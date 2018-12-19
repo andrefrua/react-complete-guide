@@ -19,7 +19,7 @@ const cockpit = (props) => {
 
     return (
         <div className={classes.Cockpit}>
-            <h1>This is a react app</h1>
+            <h1>{props.appTitle}</h1>
             {/* This way of calling a method is not recommended because it can be ineficient, however it can be used if needed */}
             <p className={assignedClasses.join(" ")}>This is really working :D</p>
             <button
