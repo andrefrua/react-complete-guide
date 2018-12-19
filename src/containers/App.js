@@ -12,12 +12,27 @@ class App extends Component {
     //NOTE: State could be initialized here, to access it with `this.state`
   }
 
-  componentWillMount() {    
+  componentWillMount() {
     console.log("[App.js] Inside componentWillMount()");
   }
 
   componentDidMount() {
     console.log("[App.js] Inside componentDidMount()");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("[UPDATE App.js] Inside shouldComponentUpdate()", nextProps, nextState);
+    // Here we should check if the props that are import for this component did in fact change and then update
+    return nextProps.persons !== this.state.persons ||
+      nextProps.showPersons !== this.state.showPersons;
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log("[UPDATE App.js] Inside componentWillUpdate()", nextProps, nextState);
+  }
+
+  componentDidUpdate() {
+    console.log("[UPDATE App.js] Inside componentDidUpdate()");
   }
 
   state = {
@@ -83,6 +98,7 @@ class App extends Component {
 
     return (
       <div className={classes.App}>
+        <button onClick={() => this.setState({ showPersons: true })}>Show Persons</button>
         <Cockpit
           appTitle={this.props.title}
           showPersons={this.state.showPersons}

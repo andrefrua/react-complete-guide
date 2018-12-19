@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 
 import Person from "./Person/Person";
-// ES6 for function with only a return it can ommit the return statment. This is a ES6 feature, nothing to do with React itself
-class Persons extends Component {
+
+//NOTE: Using PureComponent checks if there are actually changes to the state, so if we use this everywhere we will get a performance hit.
+class Persons extends PureComponent {
     constructor(props) {
         super(props);
         console.log("[Persons.js] Inside constructor", props);
@@ -22,11 +23,13 @@ class Persons extends Component {
         console.log("[UPDATE Persons.js] Inside componentWillReceiveProps()", nextProps);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log("[UPDATE Persons.js] Inside shouldComponentUpdate()", nextProps, nextState);
-        // Here we should check if the props that are import for this component did in fact change and then update
-        return nextProps.persons !== this.props.persons;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log("[UPDATE Persons.js] Inside shouldComponentUpdate()", nextProps, nextState);
+    //     // Here we should check if the props that are import for this component did in fact change and then update
+    //     return nextProps.persons !== this.props.persons ||
+    //         nextProps.changed !== this.props.changed ||
+    //         nextProps.click !== this.props.click;
+    // }
 
     componentWillUpdate(nextProps, nextState) {
         console.log("[UPDATE Persons.js] Inside componentWillUpdate()", nextProps, nextState);
