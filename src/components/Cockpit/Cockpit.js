@@ -8,7 +8,7 @@ const cockpit = (props) => {
     let btnClass = classes.Button;
 
     if (props.showPersons) {
-        btnClass = [classes.Button, classes.red].join(" ");
+        btnClass = [classes.Button, classes.Red].join(" ");
     }
 
     if (props.persons.length <= 2) {
