@@ -37,6 +37,18 @@ class App extends Component {
     console.log("[UPDATE App.js] Inside componentDidUpdate()");
   }
 
+  // NEW LIFECYCLE HOOKS
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log("[UPDATE App.js] Inside getDerivedStateFromProps()", nextProps, prevState);
+
+    return prevState;
+  }
+
+  getSnapshotBeforeUpdate() {
+    // This triggers before the DOM is updated. It could be usefull for example to save the scroll position
+    console.log("[UPDATE App.js] Inside getSnapshotBeforeUpdate()");
+  }
+
   state = {
     persons: [
       { id: "aaa", name: "André", age: 35 },
