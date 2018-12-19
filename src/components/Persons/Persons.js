@@ -8,6 +8,7 @@ class Persons extends PureComponent {
         super(props);
         console.log("[Persons.js] Inside constructor", props);
         //NOTE: State could be initialized here, to access it with `this.state`
+        this.lastPersonRef = React.createRef();
     }
 
     componentWillMount() {
@@ -16,6 +17,7 @@ class Persons extends PureComponent {
 
     componentDidMount() {
         console.log("[Persons.js] Inside componentDidMount()");
+        this.lastPersonRef.current.focus();
     }
 
     // Update lifecycle methods
@@ -47,6 +49,7 @@ class Persons extends PureComponent {
                 position={index}
                 name={person.name}
                 age={person.age}
+                ref={this.lastPersonRef}
                 key={person.id}
                 changed={(event) => this.props.changed(event, person.id)} />
         });
